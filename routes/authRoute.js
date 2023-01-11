@@ -7,17 +7,18 @@ const { tokenValidator } = require('../middlewares/tokenValidator');
 // Usamos el método Router de express para configurar las rutas
 const router = express.Router()
 
-// Ruta login para iniciar sesión.
+// Ruta para iniciar sesión.
 router.post('/login', [
         // Validaciones usando el método check de express-validator
-        check('email','Introduce una dirección de correo electrónico válida').isEmail(),
+        check('email','La dirección de correo electrónico no es válida').isEmail(),
         check('password')
             .isLength({min:6})
-            .withMessage('La contraseña debe tener un mínimo de 6 caracteres')
+            .withMessage('La contraseña contiene un mínimo de 6 caracteres')
             .matches(/\d/)
-            .withMessage('La contraseña debe contener al menos un número')
+            .withMessage('La contraseña contiene al menos un número')
             .matches(/[.,'!&*_]+/)
-            .withMessage('La contraseña debe contener al menos un carácter especial'),
+            .withMessage('La contraseña contiene al menos un carácter especial'),
+        // mostrar los errores
         inputsValidator
     ], loginUser
 )

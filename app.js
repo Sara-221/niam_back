@@ -28,7 +28,7 @@ app.use(express.json())
 app.use('/api/auth', require('./routes/authRoute'))
 
 // Ruta recipes
-// todo
+app.use('/api/recipes', require('./routes/recipesRoute'))
 
 // Aplicación a la escucha del puerto
 app.listen(port,()=>{console.log(`Servidor a la escucha del puerto ${port}`)})
