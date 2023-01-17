@@ -1,7 +1,7 @@
 const {Router} = require('express')
 const { tokenValidator } = require('../middlewares/tokenValidator')
 const { getRecipes, createRecipe, editRecipe, deleteRecipe } = require('../controllers/recipesController')
-const { check } = require('express-validator')
+const { check, oneOf } = require('express-validator')
 const { inputsValidator } = require('../middlewares/inputsValidator')
 inputsValidator
 
@@ -25,10 +25,15 @@ router.post('/',
         .withMessage('La categoría es obligatoria')
         .isIn(['aperitivo', 'desayuno', 'ensalada', 'principal', 'sopa', 'postre'])
         .withMessage('La categoría no es válida'),
-    check('url', 'El enlace no es válido').isURL(),
     // mostrar los errores
     inputsValidator
-    ], createRecipe)
+    ], 
+    oneOf([
+        check('url').isEmpty(),
+        check('url').isURL(),
+        ],"Omite el enlace o introduce uno válido."),
+    inputsValidator
+    ,createRecipe)
 
 // Ruta para editar una receta
 router.put('/:id',
