@@ -46,10 +46,14 @@ router.put('/:id',
         .withMessage('La categoría es obligatoria')
         .isIn(['aperitivo', 'desayuno', 'ensalada', 'principal', 'sopa', 'postre'])
         .withMessage('La categoría no es válida'),
-    check('url', 'El enlace no es válido').isURL(),
     // mostrar los errores
     inputsValidator
     ],
+    oneOf([
+        check('url').isEmpty(),
+        check('url').isURL(),
+        ],"Omite el enlace o introduce uno válido."),
+    inputsValidator,
     editRecipe)
 
 // Ruta para eliminar una receta
